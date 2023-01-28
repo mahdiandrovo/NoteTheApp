@@ -8,6 +8,8 @@ import androidx.room.Query
 
 @Dao
 interface UserDao {
+    //DAO: Data Access Object
+
     //jodi same user ashe tahole ta ignore korbe
     //may b add korbe na emn kichu
     //not sure yet
