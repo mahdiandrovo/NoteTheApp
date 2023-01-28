@@ -10,7 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.drovo.notetheapp.R
-import com.drovo.notetheapp.data.UserViewModel
+import com.drovo.notetheapp.viewmodel.UserViewModel
 import com.drovo.notetheapp.databinding.FragmentListBinding
 
 class ListFragment : Fragment() {

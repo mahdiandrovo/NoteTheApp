@@ -1,6 +1,8 @@
-package com.drovo.notetheapp.data
+package com.drovo.notetheapp.repository
 
 import androidx.lifecycle.LiveData
+import com.drovo.notetheapp.data.UserDao
+import com.drovo.notetheapp.model.User
 
 class UserRepository(private val userDao: UserDao) {
 
@@ -9,5 +11,9 @@ class UserRepository(private val userDao: UserDao) {
     }
 
     val readAllData: LiveData<List<User>> = userDao.readAllData()
+
+    suspend fun updateUser(user: User){
+        userDao.updateUser(user)
+    }
 
 }

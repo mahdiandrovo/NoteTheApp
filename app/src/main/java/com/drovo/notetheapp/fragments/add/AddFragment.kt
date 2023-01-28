@@ -9,13 +9,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import com.drovo.notetheapp.R
-import com.drovo.notetheapp.data.User
-import com.drovo.notetheapp.data.UserViewModel
+import com.drovo.notetheapp.model.User
+import com.drovo.notetheapp.viewmodel.UserViewModel
 import com.drovo.notetheapp.databinding.FragmentAddBinding
-import com.drovo.notetheapp.databinding.FragmentListBinding
 
 class AddFragment : Fragment() {
 
@@ -39,10 +37,10 @@ class AddFragment : Fragment() {
     private fun insertDataToDatabase() {
         val firstName = binding.addFirstNameEt.text.toString()
         val lastName = binding.addLastNameEt.text.toString()
-        val age = binding.addAgeEt.text
+        val age = binding.addAgeEt.text.toString()
 
         if (inputCheck(firstName, lastName, age)){
-            val user = User(0, firstName, lastName, Integer.parseInt(age.toString()))
+            val user = User(0, firstName, lastName, Integer.parseInt(age))
             userViewModel.addUser(user)
             Toast.makeText(requireContext(), "successfully added", Toast.LENGTH_SHORT).show()
             findNavController().navigate(R.id.action_addFragment_to_listFragment2)
@@ -51,7 +49,7 @@ class AddFragment : Fragment() {
         }
     }
 
-    private fun inputCheck(firstName: String, lastName: String, age:Editable): Boolean {
+    private fun inputCheck(firstName: String, lastName: String, age: String): Boolean {
         return !(TextUtils.isEmpty(firstName) || TextUtils.isEmpty(lastName) || TextUtils.isEmpty(age))
     }
 
