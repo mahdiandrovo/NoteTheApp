@@ -9,6 +9,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import com.drovo.notetheapp.R
 import com.drovo.notetheapp.data.User
 import com.drovo.notetheapp.data.UserViewModel
@@ -43,6 +45,7 @@ class AddFragment : Fragment() {
             val user = User(0, firstName, lastName, Integer.parseInt(age.toString()))
             userViewModel.addUser(user)
             Toast.makeText(requireContext(), "successfully added", Toast.LENGTH_SHORT).show()
+            findNavController().navigate(R.id.action_addFragment_to_listFragment2)
         }else{
             Toast.makeText(requireContext(), "please fill all fields", Toast.LENGTH_SHORT).show()
         }
