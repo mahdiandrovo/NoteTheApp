@@ -1,11 +1,11 @@
 package com.drovo.notetheapp.fragments.update
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -25,10 +25,14 @@ class UpdateFragment : Fragment() {
     lateinit var binding: FragmentUpdateBinding
     lateinit var userViewModel: UserViewModel
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         userViewModel = ViewModelProvider(this).get(UserViewModel::class.java)
 
         binding = FragmentUpdateBinding.inflate(inflater, container, false)
@@ -40,6 +44,8 @@ class UpdateFragment : Fragment() {
         binding.updateBtn.setOnClickListener {
             updateItem()
         }
+
+        setHasOptionsMenu(true)
 
         return binding.root
     }
@@ -64,5 +70,34 @@ class UpdateFragment : Fragment() {
     private fun inputCheck(firstName: String, lastName: String, age: String): Boolean {
         return !(TextUtils.isEmpty(firstName) || TextUtils.isEmpty(lastName) || TextUtils.isEmpty(age))
     }
+
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.delete_menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.menu_delete){
+            deleteUser()
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    private fun deleteUser() {
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setPositiveButton("Yes"){_, _ ->
+            userViewModel.deleteUser(args.currentUser)
+            Toast.makeText(requireContext(), "user deleted", Toast.LENGTH_SHORT).show()
+            findNavController().navigate(R.id.action_updateFragment_to_listFragment)
+        }
+        builder.setNegativeButton("No"){_, _ ->
+
+        }
+
+        builder.setTitle("Delete ${args.currentUser.firstName}")
+        builder.setMessage("Are you sure want to delete the record?")
+        builder.create().show()
+    }
+
 
 }

@@ -1,10 +1,10 @@
 package com.drovo.notetheapp.fragments.list
 
+import android.app.AlertDialog
 import android.os.Bundle
+import android.view.*
+import android.widget.Toast
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -19,7 +19,7 @@ class ListFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         binding = FragmentListBinding.inflate(inflater, container, false)
 
@@ -36,8 +36,37 @@ class ListFragment : Fragment() {
         binding.floatingActionButton.setOnClickListener {
             findNavController().navigate(R.id.action_listFragment_to_addFragment)
         }
+
+        setHasOptionsMenu(true)
+
         return binding.root
 
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.delete_menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.menu_delete){
+            deleteAllUser()
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    private fun deleteAllUser() {
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setPositiveButton("Yes"){_, _ ->
+            userViewModel.deleteAllUsers()
+            Toast.makeText(requireContext(), "all users deleted", Toast.LENGTH_SHORT).show()
+        }
+        builder.setNegativeButton("No"){_, _ ->
+
+        }
+
+        builder.setTitle("Delete all user?")
+        builder.setMessage("Are you sure want to delete all the record?")
+        builder.create().show()
     }
 
 }
